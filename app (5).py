@@ -4,10 +4,10 @@
 # To run Streamlit UI: streamlit run app.py
 
 import os
+import sys
 import json
 import logging
 import argparse
-import sys
 import uuid
 from datetime import datetime
 from typing import List, Optional, Dict, Any
@@ -61,7 +61,6 @@ REAL_FINES = [
     {"sector": "retail", "fine_eur": 20000000, "revenue_eur": 20000000000, "breach_types": ["consent"]},
     {"sector": "telecom", "fine_eur": 40000000, "revenue_eur": 15000000000, "breach_types": ["security"]},
     {"sector": "public_sector", "fine_eur": 5000000, "revenue_eur": 1000000000, "breach_types": ["dpo"]},
-    # Add more to improve calibration
 ]
 REAL_FINES_DF = pd.DataFrame(REAL_FINES)
 
@@ -766,7 +765,7 @@ if __name__ == "__main__":
     # Detect if running under Streamlit
     # When using `streamlit run`, the script is executed with streamlit's CLI, not with --streamlit flag.
     # We can check sys.argv[0] for "streamlit" or environment variable.
-    if "streamlit" in sys.argv[0] or "STREAMLIT_RUN" in os.environ:
+    if "streamlit" in sys.argv[0] or os.environ.get("STREAMLIT_RUN", False):
         # This block will run when the script is executed with "streamlit run app.py"
         run_streamlit()
         sys.exit()
