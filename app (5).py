@@ -773,3 +773,8 @@ if __name__ == "__main__":
     else:
         # Run FastAPI with uvicorn
         uvicorn.run(app, host=args.host, port=args.port)
+
+import sys
+if "streamlit" in sys.argv[0]:
+    run_streamlit()
+    sys.exit()
