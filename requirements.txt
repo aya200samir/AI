@@ -8,7 +8,7 @@ pandas
 numpy
 joblib
 reportlab
-python-multipar
+python-multipart
 streamlit
 plotly
 matplotlib
