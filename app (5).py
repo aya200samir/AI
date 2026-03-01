@@ -1,12 +1,13 @@
 # app.py - AI-Driven Data Protection Compliance Intelligence Engine
 # Unbeatable version with enterprise features
 # To run API: uvicorn app:app --reload --port 8000
-# To run Streamlit UI: streamlit run app.py -- --streamlit
+# To run Streamlit UI: streamlit run app.py
 
 import os
 import json
 import logging
 import argparse
+import sys
 import uuid
 from datetime import datetime
 from typing import List, Optional, Dict, Any
@@ -760,21 +761,25 @@ def run_streamlit():
                 interpreter = LegalInterpreter(predictor.model, predictor.feature_names)
 
 
-# ------------------------- Entry Point -------------------------
+# ------------------------- Entry Point (Modified to support both run methods) -------------------------
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--streamlit", action="store_true", help="Run Streamlit UI")
-    parser.add_argument("--host", default="0.0.0.0", help="FastAPI host")
-    parser.add_argument("--port", type=int, default=8000, help="FastAPI port")
-    args = parser.parse_args()
-
-    if args.streamlit:
+    # Detect if running under Streamlit
+    # When using `streamlit run`, the script is executed with streamlit's CLI, not with --streamlit flag.
+    # We can check sys.argv[0] for "streamlit" or environment variable.
+    if "streamlit" in sys.argv[0] or "STREAMLIT_RUN" in os.environ:
+        # This block will run when the script is executed with "streamlit run app.py"
         run_streamlit()
+        sys.exit()
     else:
-        # Run FastAPI with uvicorn
-        uvicorn.run(app, host=args.host, port=args.port)
+        # Normal argparse for direct Python execution
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--streamlit", action="store_true", help="Run Streamlit UI")
+        parser.add_argument("--host", default="0.0.0.0", help="FastAPI host")
+        parser.add_argument("--port", type=int, default=8000, help="FastAPI port")
+        args = parser.parse_args()
 
-import sys
-if "streamlit" in sys.argv[0]:
-    run_streamlit()
-    sys.exit()
+        if args.streamlit:
+            run_streamlit()
+        else:
+            # Run FastAPI with uvicorn
+            uvicorn.run(app, host=args.host, port=args.port)
