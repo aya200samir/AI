@@ -1,0 +1,9 @@
+General Data Protection Regulation
+pandas
+numpy
+Scikit-learn
+XGBoost
+SHAP
+joblib
+FastAPI
+Streamlit
