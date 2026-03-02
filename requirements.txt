@@ -1,14 +1,10 @@
-fastapi
-uvicorn[standard]
-pydantic
+streamlit
+pandas
+numpy
 xgboost
 scikit-learn
 shap
-pandas
-numpy
 joblib
 reportlab
-python-multipart
-streamlit
 plotly
 matplotlib
